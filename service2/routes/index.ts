@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { createAction, getActions } from "../controllers";
 
 const router = Router();
 
-router.get("/list", (req, res) => res.send("list"));
-router.post("/create", (req, res) => res.send("create"));
+router.get("/list", getActions);
+router.post("/create", createAction);
 
 export { router };
