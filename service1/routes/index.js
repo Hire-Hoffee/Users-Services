@@ -1,9 +1,11 @@
 import { Router } from "express";
 
+import { getUsers, createUser, updateUser } from "../controllers/index.js";
+
 const router = Router();
 
-router.get("/list", (req, res) => res.send("get users"));
-router.post("/create", (req, res) => res.send("create new user"));
-router.patch("/update", (req, res) => res.send("update user"));
+router.get("/list", getUsers);
+router.post("/create", createUser);
+router.patch("/update", updateUser);
 
 export { router };
