@@ -1,4 +1,5 @@
 import { prisma } from "../database/db.js";
+import { sendAction } from "../axios/index.js";
 
 const getUsers = async (req, res) => {
   try {
@@ -16,6 +17,7 @@ const createUser = async (req, res) => {
     const { email, name } = req.body;
 
     const result = await prisma.user.create({ data: { email, name } });
+    await sendAction({ userId: result.id, action: "user created" });
 
     return res.json(result);
   } catch (error) {
@@ -32,6 +34,7 @@ const updateUser = async (req, res) => {
       where: { email },
       data: { name: newName, email: newEmail },
     });
+    await sendAction({ userId: result.id, action: "user updated" });
 
     return res.json(result);
   } catch (error) {
