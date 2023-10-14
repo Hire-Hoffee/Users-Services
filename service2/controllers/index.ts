@@ -5,9 +5,13 @@ const getActions = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId, pageNum } = req.query;
 
+    if (!userId) {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
+
     const result = await prisma.history.findMany({
       where: { userId: Number(userId) },
-      skip: Number(pageNum) ? (Number(pageNum) - 1) * 10 : 0,
+      skip: pageNum ? (Number(pageNum) - 1) * 10 : 0,
       take: 10,
     });
 
@@ -21,6 +25,10 @@ const getActions = async (req: Request, res: Response, next: NextFunction) => {
 const createAction = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId, action }: { userId: number; action: string } = req.body;
+
+    if (!userId || !action) {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
 
     const result = await prisma.history.create({ data: { userId, action } });
 
