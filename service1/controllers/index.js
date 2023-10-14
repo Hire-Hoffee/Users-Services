@@ -1,18 +1,18 @@
 import { prisma } from "../database/db.js";
 import { sendAction } from "../axios/index.js";
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
   try {
     const result = await prisma.user.findMany();
 
     return res.json(result);
   } catch (error) {
     console.log(error);
-    throw error;
+    next(error);
   }
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   try {
     const { email, name } = req.body;
 
@@ -22,11 +22,11 @@ const createUser = async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.log(error);
-    throw error;
+    next(error);
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const { email, newName, newEmail } = req.body;
 
@@ -39,7 +39,7 @@ const updateUser = async (req, res) => {
     return res.json(result);
   } catch (error) {
     console.log(error);
-    throw error;
+    next(error);
   }
 };
 

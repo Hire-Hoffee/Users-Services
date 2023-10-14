@@ -1,7 +1,7 @@
 import { prisma } from "../database/db";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
-const getActions = async (req: Request, res: Response) => {
+const getActions = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId, pageNum } = req.query;
 
@@ -14,11 +14,11 @@ const getActions = async (req: Request, res: Response) => {
     return res.json(result);
   } catch (error) {
     console.log(error);
-    throw error;
+    next(error);
   }
 };
 
-const createAction = async (req: Request, res: Response) => {
+const createAction = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId, action }: { userId: number; action: string } = req.body;
 
@@ -27,7 +27,7 @@ const createAction = async (req: Request, res: Response) => {
     return res.json(result);
   } catch (error) {
     console.log(error);
-    throw error;
+    next(error);
   }
 };
 
